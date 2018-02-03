@@ -9,17 +9,23 @@ const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
 //   userInfo: userInfo // 你要保存到token的数据
 // }, publicKey, { expiresIn: '7d' })
 
+export let generateToken = function(data){
+  return jwt.sign({
+    data: data 
+  }, publicKey, { expiresIn: '7d' })
+}
 /**
  * 检查授权是否合法
  */
-export let CheckAuth = (ctx) => {
-  let token = ctx.request.header.authorization
+export let checkAuth = (ctx) => {
+  let token = ctx.request.header.token;
   try {
-    let decoded = jwt.verify(token.substr(7), publicKey)
-    if (decoded.userInfo) {
+    console.log("token",token);
+    let decoded = jwt.verify(token, publicKey)
+    if (decoded.data) {
       return {
         status: 1,
-        result: decoded.userInfo
+        result: decoded.data
       }
     } else {
       return {

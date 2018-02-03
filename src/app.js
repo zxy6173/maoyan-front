@@ -2,7 +2,8 @@ import Koa2 from 'koa'
 import KoaBody from 'koa-body'
 import KoaStatic from 'koa-static2'
 import {
-  System as SystemConfig
+  System as SystemConfig,
+  UnlessAuth
 } from './config'
 import path from 'path'
 import MainRoutes from './routes/main-routes'
@@ -31,7 +32,7 @@ app
   })
   .use(ErrorRoutesCatch())
   .use(KoaStatic('assets', path.resolve(__dirname, '../assets'))) // Static resource
-  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user\/login|\/assets/] }))
+  .use(jwt({ secret: publicKey }).unless(UnlessAuth))
   .use(KoaBody({
     multipart: true,
     strict: false,
