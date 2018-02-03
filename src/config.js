@@ -35,7 +35,7 @@ export let SendEmail = {
 export let UnlessAuth = {
   path: [
     /^\/public/,
-    /^\/user\/login/,
+    /^\/login/,
     /^\/assets/,
     /^\/films/,
     /^\/users/
